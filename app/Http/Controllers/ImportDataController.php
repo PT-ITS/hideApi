@@ -65,7 +65,7 @@ class ImportDataController extends Controller
                     User::create([
                         'name' => $data['namapj'],
                         'email' => $data['emailpj'],
-                        'password' => bcrypt('12345'),
+                        'password' => bcrypt(12345),
                         'alamat' => $data['alamat'],
                         'noHP' => $data['teleponpj'],
                         'level' => '2',
@@ -214,7 +214,7 @@ class ImportDataController extends Controller
                     User::create([
                         'name' => $data['namapj'],
                         'email' => $data['emailpj'],
-                        'password' => bcrypt('12345'),
+                        'password' => bcrypt(12345),
                         'alamat' => $data['alamat'],
                         'noHP' => $data['teleponpj'],
                         'level' => '2',
@@ -362,7 +362,7 @@ class ImportDataController extends Controller
                     User::create([
                         'name' => $data['namapj'],
                         'email' => $data['emailpj'],
-                        'password' => bcrypt('12345'),
+                        'password' => bcrypt(12345),
                         'alamat' => $data['alamat'],
                         'noHP' => $data['teleponpj'],
                         'level' => '2',
