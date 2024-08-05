@@ -27,6 +27,7 @@ class Hotel extends Model
         'surveyor_id',
         'emailPj',
         'passwordPj',
+        'pj_id',
         'created_at'
     ];
 
