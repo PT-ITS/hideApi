@@ -65,7 +65,7 @@ class ImportDataController extends Controller
                     User::create([
                         'name' => $data['namapj'],
                         'email' => $data['emailpj'],
-                        'password' => '12345',
+                        'password' => bcrypt(12345),
                         'alamat' => $data['alamat'],
                         'noHP' => $data['teleponpj'],
                         'level' => '2',
@@ -210,6 +210,16 @@ class ImportDataController extends Controller
                         'passwordPj'    => $data['passwordpj'],
                         'created_at'    => $created_at,
                     ]);
+
+                    User::create([
+                        'name' => $data['namapj'],
+                        'email' => $data['emailpj'],
+                        'password' => bcrypt(12345),
+                        'alamat' => $data['alamat'],
+                        'noHP' => $data['teleponpj'],
+                        'level' => '2',
+                        'status' => '1',
+                    ]);
                     // Coba simpan hiburan ke database
                     if ($hiburan->save()) {
                         // Jika berhasil, tambahkan ke hitungan data yang berhasil
@@ -347,6 +357,16 @@ class ImportDataController extends Controller
                         'emailPj'       => $data['emailpj'],
                         'passwordPj'    => $data['passwordpj'],
                         'created_at'    => $created_at,
+                    ]);
+
+                    User::create([
+                        'name' => $data['namapj'],
+                        'email' => $data['emailpj'],
+                        'password' => bcrypt(12345),
+                        'alamat' => $data['alamat'],
+                        'noHP' => $data['teleponpj'],
+                        'level' => '2',
+                        'status' => '1',
                     ]);
                     // Coba simpan hiburan ke database
                     if ($fnb->save()) {
