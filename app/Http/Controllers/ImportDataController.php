@@ -115,7 +115,6 @@ class ImportDataController extends Controller
                     
                     $karyawan = new Karyawan([
                         'namaKaryawan'        => $data['namakaryawan'],
-                        'nikKaryawan'         => $data['nikkaryawan'],
                         'pendidikanKaryawan'  => $data['pendidikankaryawan'],
                         'jabatanKaryawan'     => $data['jabatankaryawan'],
                         'alamatKaryawan'      => $data['alamatkaryawan'],
@@ -254,7 +253,6 @@ class ImportDataController extends Controller
                     
                     $karyawan = new Karyawan([
                         'namaKaryawan'        => $data['namakaryawan'],
-                        'nikKaryawan'         => $data['nikkaryawan'],
                         'pendidikanKaryawan'  => $data['pendidikankaryawan'],
                         'jabatanKaryawan'     => $data['jabatankaryawan'],
                         'alamatKaryawan'      => $data['alamatkaryawan'],
@@ -393,7 +391,6 @@ class ImportDataController extends Controller
                     
                     $karyawan = new Karyawan([
                         'namaKaryawan'        => $data['namakaryawan'],
-                        'nikKaryawan'         => $data['nikkaryawan'],
                         'pendidikanKaryawan'  => $data['pendidikankaryawan'],
                         'jabatanKaryawan'     => $data['jabatankaryawan'],
                         'alamatKaryawan'      => $data['alamatkaryawan'],
