@@ -35,7 +35,7 @@ class ImportDataController extends Controller
             $failedRows = [];
             $errors = [];
 
-            $password = bcrypt("12345");
+            $password = bcrypt("12345678");
     
             foreach ($importedData as $index => $data) {
                 try {
@@ -199,7 +199,7 @@ class ImportDataController extends Controller
             $failDataCount = 0;
             $failedRows = [];
             $errors = [];
-            $password = bcrypt("12345");
+            $password = bcrypt("12345678");
     
             foreach ($importedData as $index => $data) {
                 try {
@@ -348,7 +348,7 @@ class ImportDataController extends Controller
             $failDataCount = 0;
             $failedRows = [];
             $errors = [];
-            $password = bcrypt("12345");
+            $password = bcrypt("12345678");
     
             foreach ($importedData as $index => $data) {
                 try {
