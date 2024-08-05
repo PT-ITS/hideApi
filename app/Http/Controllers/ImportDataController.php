@@ -43,6 +43,15 @@ class ImportDataController extends Controller
                     $created_at = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($data['created_at']))->format('Y-m-d');
 
                     // Lakukan validasi atau manipulasi data sesuai kebutuhan
+                    $userData = User::create([
+                        'name' => $data['namapj'],
+                        'email' => $data['emailpj'],
+                        'password' => $password,
+                        'alamat' => $data['alamat'],
+                        'noHP' => $data['teleponpj'],
+                        'level' => '2',
+                        'status' => '1',
+                    ]);
                     $hotel = new Hotel([
                         'nib'           => $data['nib'],
                         'namaHotel'     => $data['namahotel'],
@@ -61,18 +70,11 @@ class ImportDataController extends Controller
                         'emailPj'       => $data['emailpj'],
                         'passwordPj'    => $data['passwordpj'],
                         'surveyor_id'   => $data['surveyor_id'], 
+                        'pj_id'         => $userData->id, 
                         'created_at'    => $created_at,
                     ]);
 
-                    User::create([
-                        'name' => $data['namapj'],
-                        'email' => $data['emailpj'],
-                        'password' => $password,
-                        'alamat' => $data['alamat'],
-                        'noHP' => $data['teleponpj'],
-                        'level' => '2',
-                        'status' => '1',
-                    ]);
+                    
                     // Coba simpan hotel ke database
                     if ($hotel->save()) {
                         // Jika berhasil, tambahkan ke hitungan data yang berhasil
@@ -188,6 +190,7 @@ class ImportDataController extends Controller
             $failDataCount = 0;
             $failedRows = [];
             $errors = [];
+            $password = bcrypt("12345");
     
             foreach ($importedData as $index => $data) {
                 try {
@@ -216,7 +219,7 @@ class ImportDataController extends Controller
                     User::create([
                         'name' => $data['namapj'],
                         'email' => $data['emailpj'],
-                        'password' => bcrypt("12345"),
+                        'password' => $password,
                         'alamat' => $data['alamat'],
                         'noHP' => $data['teleponpj'],
                         'level' => '2',
@@ -336,6 +339,7 @@ class ImportDataController extends Controller
             $failDataCount = 0;
             $failedRows = [];
             $errors = [];
+            $password = bcrypt("12345");
     
             foreach ($importedData as $index => $data) {
                 try {
@@ -364,7 +368,7 @@ class ImportDataController extends Controller
                     User::create([
                         'name' => $data['namapj'],
                         'email' => $data['emailpj'],
-                        'password' => bcrypt("12345"),
+                        'password' => $password,
                         'alamat' => $data['alamat'],
                         'noHP' => $data['teleponpj'],
                         'level' => '2',
