@@ -34,6 +34,8 @@ class ImportDataController extends Controller
             $failDataCount = 0;
             $failedRows = [];
             $errors = [];
+
+            $password = bcrypt("12345");
     
             foreach ($importedData as $index => $data) {
                 try {
@@ -65,7 +67,7 @@ class ImportDataController extends Controller
                     User::create([
                         'name' => $data['namapj'],
                         'email' => $data['emailpj'],
-                        'password' => bcrypt("12345"),
+                        'password' => $password,
                         'alamat' => $data['alamat'],
                         'noHP' => $data['teleponpj'],
                         'level' => '2',
