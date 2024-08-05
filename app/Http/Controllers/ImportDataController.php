@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Imports\DataImportHotel;
 use App\Imports\DataImportHiburan;
 use App\Imports\DataImportFnb;
+use App\Models\User;
 use App\Models\Karyawan;
 use App\Models\Hotel;
 use App\Models\KaryawanHotel;
@@ -59,6 +60,16 @@ class ImportDataController extends Controller
                         'passwordPj'    => $data['passwordpj'],
                         'surveyor_id'   => $data['surveyor_id'], 
                         'created_at'    => $created_at,
+                    ]);
+
+                    User::create([
+                        'name' => $data['namapj'],
+                        'email' => $data['emailpj'],
+                        'password' => '12345',
+                        'alamat' => $data['alamat'],
+                        'noHP' => $data['teleponpj'],
+                        'level' => '2',
+                        'status' => '1',
                     ]);
                     // Coba simpan hotel ke database
                     if ($hotel->save()) {
@@ -118,6 +129,7 @@ class ImportDataController extends Controller
                         'pendidikanKaryawan'  => $data['pendidikankaryawan'],
                         'jabatanKaryawan'     => $data['jabatankaryawan'],
                         'alamatKaryawan'      => $data['alamatkaryawan'],
+                        'jenisKelamin'        => $data['jeniskelamin'],
                         'sertifikasiKaryawan' => $data['sertifikasikaryawan'],
                         'wargaNegara'         => $data['warganegara'],
                         'surveyor_id'         => $data['surveyor_id'],
