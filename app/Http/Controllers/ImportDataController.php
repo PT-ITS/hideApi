@@ -432,7 +432,7 @@ class ImportDataController extends Controller
             foreach ($importedData as $index => $data) {
                 try {
                     // Validasi dan konversi format tanggal
-                    $created_at = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($data['created_at']))->format('Y-m-d');
+                    // $created_at = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($data['created_at']))->format('Y-m-d');
 
                     // Lakukan validasi atau manipulasi data sesuai kebutuhan
                     $dataFnb = Fnb::find($data['fnb_id']);
