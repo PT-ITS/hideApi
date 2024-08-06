@@ -43,24 +43,6 @@ class ImportDataController extends Controller
                     $created_at = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($data['created_at']))->format('Y-m-d');
 
                     // Lakukan validasi atau manipulasi data sesuai kebutuhan
-                    $userData = new User();
-                    $userData->name = $data['namapj'];
-                    $userData->email = $data['emailpj'];
-                    $userData->password = $password;
-                    $userData->alamat = $data['alamat'];
-                    $userData->noHP = $data['teleponpj'];
-                    $userData->level = '2';
-                    $userData->status = '1';
-                    $userData->save();
-                    // create([
-                    //     'name' => $data['namapj'],
-                    //     'email' => $data['emailpj'],
-                    //     'password' => $password,
-                    //     'alamat' => $data['alamat'],
-                    //     'noHP' => $data['teleponpj'],
-                    //     'level' => '2',
-                    //     'status' => '1',
-                    // ]);
                     $hotel = new Hotel([
                         'nib'           => $data['nib'],
                         'namaHotel'     => $data['namahotel'],
@@ -86,6 +68,15 @@ class ImportDataController extends Controller
                     
                     // Coba simpan hotel ke database
                     if ($hotel->save()) {
+                        $userData = new User();
+                        $userData->name = $data['namapj'];
+                        $userData->email = $data['emailpj'];
+                        $userData->password = $password;
+                        $userData->alamat = $data['alamat'];
+                        $userData->noHP = $data['teleponpj'];
+                        $userData->level = '2';
+                        $userData->status = '1';
+                        $userData->save();
                         // Jika berhasil, tambahkan ke hitungan data yang berhasil
                         $successDataCount++;
                     } else {
@@ -225,17 +216,17 @@ class ImportDataController extends Controller
                         'created_at'    => $created_at,
                     ]);
 
-                    User::create([
-                        'name' => $data['namapj'],
-                        'email' => $data['emailpj'],
-                        'password' => $password,
-                        'alamat' => $data['alamat'],
-                        'noHP' => $data['teleponpj'],
-                        'level' => '2',
-                        'status' => '1',
-                    ]);
                     // Coba simpan hiburan ke database
                     if ($hiburan->save()) {
+                        User::create([
+                            'name' => $data['namapj'],
+                            'email' => $data['emailpj'],
+                            'password' => $password,
+                            'alamat' => $data['alamat'],
+                            'noHP' => $data['teleponpj'],
+                            'level' => '2',
+                            'status' => '1',
+                        ]);
                         // Jika berhasil, tambahkan ke hitungan data yang berhasil
                         $successDataCount++;
                     } else {
@@ -374,17 +365,17 @@ class ImportDataController extends Controller
                         'created_at'    => $created_at,
                     ]);
 
-                    User::create([
-                        'name' => $data['namapj'],
-                        'email' => $data['emailpj'],
-                        'password' => $password,
-                        'alamat' => $data['alamat'],
-                        'noHP' => $data['teleponpj'],
-                        'level' => '2',
-                        'status' => '1',
-                    ]);
                     // Coba simpan hiburan ke database
                     if ($fnb->save()) {
+                        User::create([
+                            'name' => $data['namapj'],
+                            'email' => $data['emailpj'],
+                            'password' => $password,
+                            'alamat' => $data['alamat'],
+                            'noHP' => $data['teleponpj'],
+                            'level' => '2',
+                            'status' => '1',
+                        ]);
                         // Jika berhasil, tambahkan ke hitungan data yang berhasil
                         $successDataCount++;
                     } else {
@@ -444,6 +435,7 @@ class ImportDataController extends Controller
                         'alamatKaryawan'      => $data['alamatkaryawan'],
                         'sertifikasiKaryawan' => $data['sertifikasikaryawan'],
                         'wargaNegara'         => $data['warganegara'],
+                        'jenisKelamin'        => $data['jeniskelamin'],
                         'surveyor_id'         => $dataFnb->surveyor_id,
                         'created_at'          => $dataFnb->created_at,
                     ]);
