@@ -444,7 +444,7 @@ class ImportDataController extends Controller
                         'alamatKaryawan'      => $data['alamatkaryawan'],
                         'sertifikasiKaryawan' => $data['sertifikasikaryawan'],
                         'wargaNegara'         => $data['warganegara'],
-                        'surveyor_id'         => $data['surveyor_id'],
+                        'surveyor_id'         => $dataFnb->surveyor_id,
                         'created_at'          => $dataFnb->created_at,
                     ]);
                     $karyawanFnb = new KaryawanFnb([
