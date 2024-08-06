@@ -435,7 +435,8 @@ class ImportDataController extends Controller
                     $created_at = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($data['created_at']))->format('Y-m-d');
 
                     // Lakukan validasi atau manipulasi data sesuai kebutuhan
-                    
+                    $dataFnb = Fnb::find($data['fnb_id']);
+
                     $karyawan = new Karyawan([
                         'namaKaryawan'        => $data['namakaryawan'],
                         'pendidikanKaryawan'  => $data['pendidikankaryawan'],
@@ -444,12 +445,12 @@ class ImportDataController extends Controller
                         'sertifikasiKaryawan' => $data['sertifikasikaryawan'],
                         'wargaNegara'         => $data['warganegara'],
                         'surveyor_id'         => $data['surveyor_id'],
-                        'created_at'          => $created_at,
+                        'created_at'          => $dataFnb->created_at,
                     ]);
                     $karyawanFnb = new KaryawanFnb([
-                        'karyawan_id'        => $data['karyawan_id'],
-                        'hotel_id'         => $data['hotel_id'],
-                        'created_at'          => $created_at,
+                        'karyawan_id'  => $data['karyawan_id'],
+                        'fnb_id'       => $data['fnb_id'],
+                        'created_at'   => $created_at,
                     ]);
     
                     // Coba simpan hotel ke database
