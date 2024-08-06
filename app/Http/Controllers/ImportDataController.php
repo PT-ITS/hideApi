@@ -124,7 +124,9 @@ class ImportDataController extends Controller
             foreach ($importedData as $index => $data) {
                 try {
                     // Validasi dan konversi format tanggal
-                    $created_at = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($data['created_at']))->format('Y-m-d');
+                    // $created_at = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($data['created_at']))->format('Y-m-d');
+
+                    $dataHotel = Hotel::find($data['hotel_id']);
 
                     // Lakukan validasi atau manipulasi data sesuai kebutuhan
                     
@@ -136,17 +138,19 @@ class ImportDataController extends Controller
                         'jenisKelamin'        => $data['jeniskelamin'],
                         'sertifikasiKaryawan' => $data['sertifikasikaryawan'],
                         'wargaNegara'         => $data['warganegara'],
-                        'surveyor_id'         => $data['surveyor_id'],
-                        'created_at'          => $created_at,
+                        'jenisKelamin'        => $data['jeniskelamin'],
+                        'surveyor_id'         => $dataHotel->surveyor_id,
+                        'created_at'          => $dataHotel->created_at,
                     ]);
-                    $karyawanHotel = new KaryawanHotel([
-                        'karyawan_id'        => $data['karyawan_id'],
-                        'hotel_id'         => $data['hotel_id'],
-                        'created_at'          => $created_at,
-                    ]);
-    
+                    
                     // Coba simpan hotel ke database
-                    if ($karyawan->save() && $karyawanHotel->save()) {
+                    if ($karyawan->save()) {
+                        $karyawanHotel = new KaryawanHotel([
+                            'karyawan_id'   => $data['karyawan_id'],
+                            'hotel_id'      => $data['hotel_id'],
+                            'created_at'    => $dataHotel->created_at,
+                        ]);
+                        $karyawanHotel->save();
                         // Jika berhasil, tambahkan ke hitungan data yang berhasil
                         $successDataCount++;
                     } else {
@@ -274,8 +278,9 @@ class ImportDataController extends Controller
             foreach ($importedData as $index => $data) {
                 try {
                     // Validasi dan konversi format tanggal
-                    $created_at = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($data['created_at']))->format('Y-m-d');
+                    // $created_at = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($data['created_at']))->format('Y-m-d');
 
+                    $dataHiburan = Hiburan::find($data['hiburan_id']);
                     // Lakukan validasi atau manipulasi data sesuai kebutuhan
                     
                     $karyawan = new Karyawan([
@@ -285,17 +290,19 @@ class ImportDataController extends Controller
                         'alamatKaryawan'      => $data['alamatkaryawan'],
                         'sertifikasiKaryawan' => $data['sertifikasikaryawan'],
                         'wargaNegara'         => $data['warganegara'],
-                        'surveyor_id'         => $data['surveyor_id'],
-                        'created_at'          => $created_at,
+                        'jenisKelamin'        => $data['jeniskelamin'],
+                        'surveyor_id'         => $dataHiburan->surveyor_id,
+                        'created_at'          => $dataHiburan->created_at,
                     ]);
-                    $karyawanHiburan = new KaryawanHiburan([
-                        'karyawan_id'        => $data['karyawan_id'],
-                        'hotel_id'         => $data['hotel_id'],
-                        'created_at'          => $created_at,
-                    ]);
-    
+                    
                     // Coba simpan hotel ke database
-                    if ($karyawan->save() && $karyawanHiburan->save()) {
+                    if ($karyawan->save()) {
+                        $karyawanHiburan = new KaryawanHiburan([
+                            'karyawan_id'        => $data['karyawan_id'],
+                            'hiburan_id'         => $data['hiburan_id'],
+                            'created_at'          => $dataHiburan->created_at,
+                        ]);
+                        $karyawanHiburan->save();
                         // Jika berhasil, tambahkan ke hitungan data yang berhasil
                         $successDataCount++;
                     } else {
