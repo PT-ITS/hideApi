@@ -447,15 +447,16 @@ class ImportDataController extends Controller
                         'surveyor_id'         => $dataFnb->surveyor_id,
                         'created_at'          => $dataFnb->created_at,
                     ]);
-                    $karyawanFnb = new KaryawanFnb([
-                        'karyawan_id'  => $data['karyawan_id'],
-                        'fnb_id'       => $data['fnb_id'],
-                        'created_at'   => $created_at,
-                    ]);
-    
+                    
                     // Coba simpan hotel ke database
-                    if ($karyawan->save() && $karyawanFnb->save()) {
+                    if ($karyawan->save()) {
                         // Jika berhasil, tambahkan ke hitungan data yang berhasil
+                        $karyawanFnb = new KaryawanFnb([
+                            'karyawan_id'  => $karyawan->id,
+                            'fnb_id'       => $data['fnb_id'],
+                            'created_at'   => $dataFnb->created_at,
+                        ]);
+                        $karyawanFnb->save();
                         $successDataCount++;
                     } else {
                         // Jika gagal disimpan ke database, tambahkan ke hitungan data yang gagal
