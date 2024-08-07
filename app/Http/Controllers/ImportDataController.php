@@ -43,40 +43,40 @@ class ImportDataController extends Controller
                     $created_at = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($data['created_at']))->format('Y-m-d');
 
                     // Lakukan validasi atau manipulasi data sesuai kebutuhan
-                    $hotel = new Hotel([
-                        'nib'           => $data['nib'],
-                        'namaHotel'     => $data['namahotel'],
-                        'bintangHotel'  => $data['bintanghotel'],
-                        'kamarVip'      => $data['kamarvip'],
-                        'kamarStandart' => $data['kamarstandart'],
-                        'resiko'        => $data['resiko'],
-                        'skalaUsaha'    => $data['skalausaha'],
-                        'alamat'        => $data['alamat'],
-                        'koordinat'     => $data['koordinat'],
-                        'namaPj'        => $data['namapj'],
-                        'nikPj'         => $data['nikpj'],
-                        'pendidikanPj'  => $data['pendidikanpj'],
-                        'teleponPj'     => $data['teleponpj'],
-                        'wargaNegaraPj' => $data['warganegarapj'],
-                        'emailPj'       => $data['emailpj'],
-                        'passwordPj'    => $data['passwordpj'],
-                        'surveyor_id'   => $data['surveyor_id'], 
-                        'pj_id'         => $userData->id, 
-                        'created_at'    => $created_at,
-                    ]);
-
+                    $userData = new User();
+                    $userData->name = $data['namapj'];
+                    $userData->email = $data['emailpj'];
+                    $userData->password = $password;
+                    $userData->alamat = $data['alamat'];
+                    $userData->noHP = $data['teleponpj'];
+                    $userData->level = '2';
+                    $userData->status = '1';
+                    
                     
                     // Coba simpan hotel ke database
-                    if ($hotel->save()) {
-                        $userData = new User();
-                        $userData->name = $data['namapj'];
-                        $userData->email = $data['emailpj'];
-                        $userData->password = $password;
-                        $userData->alamat = $data['alamat'];
-                        $userData->noHP = $data['teleponpj'];
-                        $userData->level = '2';
-                        $userData->status = '1';
-                        $userData->save();
+                    if ($userData->save()) {
+                        $hotel = new Hotel([
+                            'nib'           => $data['nib'],
+                            'namaHotel'     => $data['namahotel'],
+                            'bintangHotel'  => $data['bintanghotel'],
+                            'kamarVip'      => $data['kamarvip'],
+                            'kamarStandart' => $data['kamarstandart'],
+                            'resiko'        => $data['resiko'],
+                            'skalaUsaha'    => $data['skalausaha'],
+                            'alamat'        => $data['alamat'],
+                            'koordinat'     => $data['koordinat'],
+                            'namaPj'        => $data['namapj'],
+                            'nikPj'         => $data['nikpj'],
+                            'pendidikanPj'  => $data['pendidikanpj'],
+                            'teleponPj'     => $data['teleponpj'],
+                            'wargaNegaraPj' => $data['warganegarapj'],
+                            'emailPj'       => $data['emailpj'],
+                            'passwordPj'    => $data['passwordpj'],
+                            'surveyor_id'   => $data['surveyor_id'], 
+                            'pj_id'         => $userData->id, 
+                            'created_at'    => $created_at,
+                        ]);
+                        $hotel->save();
                         // Jika berhasil, tambahkan ke hitungan data yang berhasil
                         $successDataCount++;
                     } else {
