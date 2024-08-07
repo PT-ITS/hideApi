@@ -19,7 +19,93 @@ use Carbon\Carbon;
 
 class ImportDataController extends Controller
 {
-    public function importDataHotel(Request $request) 
+    // public function importDataHotel(Request $request) 
+    // {
+    //     $request->validate([
+    //         'file' => 'required|mimes:xlsx,xls',
+    //     ]);
+    
+    //     try {
+    //         // Simpan data yang akan diimpor
+    //         $importedData = Excel::toArray(new DataImportHotel, $request->file('file'))[0];
+    
+    //         // Inisialisasi variabel hitungan
+    //         $successDataCount = 0;
+    //         $failDataCount = 0;
+    //         $failedRows = [];
+    //         $errors = [];
+
+    //         $password = bcrypt("12345678");
+    
+    //         foreach ($importedData as $index => $data) {
+    //             try {
+    //                 // Validasi dan konversi format tanggal
+    //                 $created_at = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($data['created_at']))->format('Y-m-d');
+
+    //                 // Lakukan validasi atau manipulasi data sesuai kebutuhan
+    //                 $userData = new User();
+    //                 $userData->name = $data['namapj'];
+    //                 $userData->email = $data['emailpj'];
+    //                 $userData->password = $password;
+    //                 $userData->alamat = $data['alamat'];
+    //                 $userData->noHP = $data['teleponpj'];
+    //                 $userData->level = '2';
+    //                 $userData->status = '1';
+                    
+                    
+    //                 // Coba simpan hotel ke database
+    //                 if ($userData->save()) {
+    //                     $hotel = new Hotel([
+    //                         'nib'           => $data['nib'],
+    //                         'namaHotel'     => $data['namahotel'],
+    //                         'bintangHotel'  => $data['bintanghotel'],
+    //                         'kamarVip'      => $data['kamarvip'],
+    //                         'kamarStandart' => $data['kamarstandart'],
+    //                         'resiko'        => $data['resiko'],
+    //                         'skalaUsaha'    => $data['skalausaha'],
+    //                         'alamat'        => $data['alamat'],
+    //                         'koordinat'     => $data['koordinat'],
+    //                         'namaPj'        => $data['namapj'],
+    //                         'nikPj'         => $data['nikpj'],
+    //                         'pendidikanPj'  => $data['pendidikanpj'],
+    //                         'teleponPj'     => $data['teleponpj'],
+    //                         'wargaNegaraPj' => $data['warganegarapj'],
+    //                         'emailPj'       => $data['emailpj'],
+    //                         'passwordPj'    => $data['passwordpj'],
+    //                         'surveyor_id'   => $data['surveyor_id'], 
+    //                         'pj_id'         => $userData->id, 
+    //                         'created_at'    => $created_at,
+    //                     ]);
+    //                     $hotel->save();
+    //                     // Jika berhasil, tambahkan ke hitungan data yang berhasil
+    //                     $successDataCount++;
+    //                 } else {
+    //                     // Jika gagal disimpan ke database, tambahkan ke hitungan data yang gagal
+    //                     $failDataCount++;
+    //                     $failedRows[] = $index + 1; // Catat baris yang gagal
+    //                     $errors[] = "Gagal menyimpan data di baris " . ($index + 1);
+    //                 }
+    //             } catch (\Exception $e) {
+    //                 // Jika ada kesalahan saat menyimpan data, tambahkan ke hitungan data yang gagal
+    //                 $failDataCount++;
+    //                 $failedRows[] = $index + 1; // Catat baris yang gagal
+    //                 $errors[] = "Kesalahan di baris " . ($index + 1) . ": " . $e->getMessage();
+    //             }
+    //         }
+    
+    //         return response()->json([
+    //             'message' => 'Data berhasil diimpor.',
+    //             'success_data_count' => $successDataCount,
+    //             'fail_data_count' => $failDataCount,
+    //             'failed_rows' => $failedRows,
+    //             'errors' => $errors,
+    //         ]);
+    //     } catch (\Exception $e) {
+    //         return response()->json(['message' => 'Terjadi kesalahan saat mengimpor data.', 'error' => $e->getMessage()], 500);
+    //     }
+    // }
+
+    public function importDataHotel(Request $request)
     {
         $request->validate([
             'file' => 'required|mimes:xlsx,xls',
@@ -34,56 +120,66 @@ class ImportDataController extends Controller
             $failDataCount = 0;
             $failedRows = [];
             $errors = [];
-
-            $password = bcrypt("12345678");
+    
+            $defaultPassword = bcrypt("12345678");
     
             foreach ($importedData as $index => $data) {
                 try {
                     // Validasi dan konversi format tanggal
                     $created_at = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($data['created_at']))->format('Y-m-d');
-
-                    // Lakukan validasi atau manipulasi data sesuai kebutuhan
-                    $userData = new User();
-                    $userData->name = $data['namapj'];
-                    $userData->email = $data['emailpj'];
-                    $userData->password = $password;
-                    $userData->alamat = $data['alamat'];
-                    $userData->noHP = $data['teleponpj'];
-                    $userData->level = '2';
-                    $userData->status = '1';
-                    
-                    
-                    // Coba simpan hotel ke database
-                    if ($userData->save()) {
-                        $hotel = new Hotel([
-                            'nib'           => $data['nib'],
-                            'namaHotel'     => $data['namahotel'],
-                            'bintangHotel'  => $data['bintanghotel'],
-                            'kamarVip'      => $data['kamarvip'],
-                            'kamarStandart' => $data['kamarstandart'],
-                            'resiko'        => $data['resiko'],
-                            'skalaUsaha'    => $data['skalausaha'],
-                            'alamat'        => $data['alamat'],
-                            'koordinat'     => $data['koordinat'],
-                            'namaPj'        => $data['namapj'],
-                            'nikPj'         => $data['nikpj'],
-                            'pendidikanPj'  => $data['pendidikanpj'],
-                            'teleponPj'     => $data['teleponpj'],
-                            'wargaNegaraPj' => $data['warganegarapj'],
-                            'emailPj'       => $data['emailpj'],
-                            'passwordPj'    => $data['passwordpj'],
-                            'surveyor_id'   => $data['surveyor_id'], 
-                            'pj_id'         => $userData->id, 
-                            'created_at'    => $created_at,
+    
+                    // Cek apakah email sudah ada di tabel User
+                    $existingUser = User::where('email', $data['emailpj'])->first();
+    
+                    if ($existingUser) {
+                        // Jika pengguna sudah ada, gunakan ID pengguna tersebut sebagai pj_id
+                        $userId = $existingUser->id;
+                    } else {
+                        // Jika pengguna tidak ada, buat pengguna baru
+                        $userData = new User([
+                            'name' => $data['namapj'],
+                            'email' => $data['emailpj'],
+                            'password' => $defaultPassword,
+                            'alamat' => $data['alamat'],
+                            'noHP' => $data['teleponpj'],
+                            'level' => '2',
+                            'status' => '1',
                         ]);
-                        $hotel->save();
-                        // Jika berhasil, tambahkan ke hitungan data yang berhasil
+                        $userData->save();
+    
+                        // Dapatkan ID pengguna yang baru dibuat
+                        $userId = $userData->id;
+                    }
+    
+                    // Simpan data hotel dengan menggunakan ID pengguna sebagai pj_id
+                    $hotel = new Hotel([
+                        'nib'           => $data['nib'],
+                        'namaHotel'     => $data['namahotel'],
+                        'bintangHotel'  => $data['bintanghotel'],
+                        'kamarVip'      => $data['kamarvip'],
+                        'kamarStandart' => $data['kamarstandart'],
+                        'resiko'        => $data['resiko'],
+                        'skalaUsaha'    => $data['skalausaha'],
+                        'alamat'        => $data['alamat'],
+                        'koordinat'     => $data['koordinat'],
+                        'namaPj'        => $data['namapj'],
+                        'nikPj'         => $data['nikpj'],
+                        'pendidikanPj'  => $data['pendidikanpj'],
+                        'teleponPj'     => $data['teleponpj'],
+                        'wargaNegaraPj' => $data['warganegarapj'],
+                        'emailPj'       => $data['emailpj'],
+                        'passwordPj'    => $data['passwordpj'],
+                        'surveyor_id'   => $data['surveyor_id'],
+                        'pj_id'         => $userId,
+                        'created_at'    => $created_at,
+                    ]);
+    
+                    if ($hotel->save()) {
                         $successDataCount++;
                     } else {
-                        // Jika gagal disimpan ke database, tambahkan ke hitungan data yang gagal
                         $failDataCount++;
                         $failedRows[] = $index + 1; // Catat baris yang gagal
-                        $errors[] = "Gagal menyimpan data di baris " . ($index + 1);
+                        $errors[] = "Gagal menyimpan data hotel di baris " . ($index + 1);
                     }
                 } catch (\Exception $e) {
                     // Jika ada kesalahan saat menyimpan data, tambahkan ke hitungan data yang gagal
@@ -104,6 +200,9 @@ class ImportDataController extends Controller
             return response()->json(['message' => 'Terjadi kesalahan saat mengimpor data.', 'error' => $e->getMessage()], 500);
         }
     }
+    
+    
+
 
     public function importDataKaryawanHotel(Request $request) 
     {
