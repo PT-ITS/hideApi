@@ -293,14 +293,37 @@ class ImportDataController extends Controller
             $failDataCount = 0;
             $failedRows = [];
             $errors = [];
-            $password = bcrypt("12345678");
+            $defaultPassword = bcrypt("12345678");
     
             foreach ($importedData as $index => $data) {
                 try {
                     // Validasi dan konversi format tanggal
                     $created_at = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($data['created_at']))->format('Y-m-d');
-
-                    // Lakukan validasi atau manipulasi data sesuai kebutuhan
+    
+                    // Cek apakah email sudah ada di tabel User
+                    $existingUser = User::where('email', $data['emailpj'])->first();
+    
+                    if ($existingUser) {
+                        // Jika pengguna sudah ada, gunakan ID pengguna tersebut sebagai pj_id
+                        $userId = $existingUser->id;
+                    } else {
+                        // Jika pengguna tidak ada, buat pengguna baru
+                        $userData = new User([
+                            'name' => $data['namapj'],
+                            'email' => $data['emailpj'],
+                            'password' => $defaultPassword,
+                            'alamat' => $data['alamat'],
+                            'noHP' => $data['teleponpj'],
+                            'level' => '2',
+                            'status' => '1',
+                        ]);
+                        $userData->save();
+    
+                        // Dapatkan ID pengguna yang baru dibuat
+                        $userId = $userData->id;
+                    }
+    
+                    // Simpan data hiburan dengan menggunakan ID pengguna sebagai pj_id
                     $hiburan = new Hiburan([
                         'nib'           => $data['nib'],
                         'namaHiburan'   => $data['namahiburan'],
@@ -313,30 +336,19 @@ class ImportDataController extends Controller
                         'pendidikanPj'  => $data['pendidikanpj'],
                         'teleponPj'     => $data['teleponpj'],
                         'wargaNegaraPj' => $data['warganegarapj'],
-                        'surveyor_id'   => $data['surveyor_id'],
                         'emailPj'       => $data['emailpj'],
                         'passwordPj'    => $data['passwordpj'],
+                        'surveyor_id'   => $data['surveyor_id'],
+                        'pj_id'         => $userId, // Gunakan ID pengguna sebagai pj_id
                         'created_at'    => $created_at,
                     ]);
-
-                    // Coba simpan hiburan ke database
+    
                     if ($hiburan->save()) {
-                        User::create([
-                            'name' => $data['namapj'],
-                            'email' => $data['emailpj'],
-                            'password' => $password,
-                            'alamat' => $data['alamat'],
-                            'noHP' => $data['teleponpj'],
-                            'level' => '2',
-                            'status' => '1',
-                        ]);
-                        // Jika berhasil, tambahkan ke hitungan data yang berhasil
                         $successDataCount++;
                     } else {
-                        // Jika gagal disimpan ke database, tambahkan ke hitungan data yang gagal
                         $failDataCount++;
                         $failedRows[] = $index + 1; // Catat baris yang gagal
-                        $errors[] = "Gagal menyimpan data di baris " . ($index + 1);
+                        $errors[] = "Gagal menyimpan data hiburan di baris " . ($index + 1);
                     }
                 } catch (\Exception $e) {
                     // Jika ada kesalahan saat menyimpan data, tambahkan ke hitungan data yang gagal
@@ -357,6 +369,7 @@ class ImportDataController extends Controller
             return response()->json(['message' => 'Terjadi kesalahan saat mengimpor data.', 'error' => $e->getMessage()], 500);
         }
     }
+    
 
     public function importDataKaryawanHiburan(Request $request) 
     {
@@ -445,14 +458,37 @@ class ImportDataController extends Controller
             $failDataCount = 0;
             $failedRows = [];
             $errors = [];
-            $password = bcrypt("12345678");
+            $defaultPassword = bcrypt("12345678");
     
             foreach ($importedData as $index => $data) {
                 try {
                     // Validasi dan konversi format tanggal
                     $created_at = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($data['created_at']))->format('Y-m-d');
-
-                    // Lakukan validasi atau manipulasi data sesuai kebutuhan
+    
+                    // Cek apakah email sudah ada di tabel User
+                    $existingUser = User::where('email', $data['emailpj'])->first();
+    
+                    if ($existingUser) {
+                        // Jika pengguna sudah ada, gunakan ID pengguna tersebut sebagai pj_id
+                        $userId = $existingUser->id;
+                    } else {
+                        // Jika pengguna tidak ada, buat pengguna baru
+                        $userData = new User([
+                            'name' => $data['namapj'],
+                            'email' => $data['emailpj'],
+                            'password' => $defaultPassword,
+                            'alamat' => $data['alamat'],
+                            'noHP' => $data['teleponpj'],
+                            'level' => '2',
+                            'status' => '1',
+                        ]);
+                        $userData->save();
+    
+                        // Dapatkan ID pengguna yang baru dibuat
+                        $userId = $userData->id;
+                    }
+    
+                    // Simpan data F&B dengan menggunakan ID pengguna sebagai pj_id
                     $fnb = new Fnb([
                         'nib'           => $data['nib'],
                         'namaFnb'       => $data['namafnb'],
@@ -465,30 +501,19 @@ class ImportDataController extends Controller
                         'pendidikanPj'  => $data['pendidikanpj'],
                         'teleponPj'     => $data['teleponpj'],
                         'wargaNegaraPj' => $data['warganegarapj'],
-                        'surveyor_id'   => $data['surveyor_id'],
                         'emailPj'       => $data['emailpj'],
                         'passwordPj'    => $data['passwordpj'],
+                        'surveyor_id'   => $data['surveyor_id'],
+                        'pj_id'         => $userId,
                         'created_at'    => $created_at,
                     ]);
-
-                    // Coba simpan hiburan ke database
+    
                     if ($fnb->save()) {
-                        User::create([
-                            'name' => $data['namapj'],
-                            'email' => $data['emailpj'],
-                            'password' => $password,
-                            'alamat' => $data['alamat'],
-                            'noHP' => $data['teleponpj'],
-                            'level' => '2',
-                            'status' => '1',
-                        ]);
-                        // Jika berhasil, tambahkan ke hitungan data yang berhasil
                         $successDataCount++;
                     } else {
-                        // Jika gagal disimpan ke database, tambahkan ke hitungan data yang gagal
                         $failDataCount++;
                         $failedRows[] = $index + 1; // Catat baris yang gagal
-                        $errors[] = "Gagal menyimpan data di baris " . ($index + 1);
+                        $errors[] = "Gagal menyimpan data F&B di baris " . ($index + 1);
                     }
                 } catch (\Exception $e) {
                     // Jika ada kesalahan saat menyimpan data, tambahkan ke hitungan data yang gagal
@@ -509,6 +534,8 @@ class ImportDataController extends Controller
             return response()->json(['message' => 'Terjadi kesalahan saat mengimpor data.', 'error' => $e->getMessage()], 500);
         }
     }
+    
+    
 
     public function importDataKaryawanFnb(Request $request) 
     {
