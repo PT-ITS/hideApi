@@ -125,8 +125,18 @@ class ImportDataController extends Controller
     
             foreach ($importedData as $index => $data) {
                 try {
-                    // Validasi dan konversi format tanggal
-                    $created_at = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($data['created_at']))->format('Y-m-d');
+                    // Validasi dan konversi format tanggal dari Excel
+                    $createdDate = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($data['created_at']))->format('Y-m-d');
+    
+                    // Generate jam, menit, dan detik secara acak
+                    $randomHour = rand(0, 23);
+                    $randomMinute = rand(0, 59);
+                    $randomSecond = rand(0, 59);
+    
+                    // Gabungkan tanggal dengan waktu acak
+                    $created_at = Carbon::parse($createdDate)
+                        ->setTime($randomHour, $randomMinute, $randomSecond)
+                        ->format('Y-m-d H:i:s');
     
                     // Cek apakah email sudah ada di tabel User
                     $existingUser = User::where('email', $data['emailpj'])->first();
@@ -200,6 +210,7 @@ class ImportDataController extends Controller
             return response()->json(['message' => 'Terjadi kesalahan saat mengimpor data.', 'error' => $e->getMessage()], 500);
         }
     }
+    
     
     
 
@@ -298,8 +309,17 @@ class ImportDataController extends Controller
             foreach ($importedData as $index => $data) {
                 try {
                     // Validasi dan konversi format tanggal
-                    $created_at = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($data['created_at']))->format('Y-m-d');
+                    $createdDate = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($data['created_at']))->format('Y-m-d');
     
+                    $randomHour = rand(0, 23);
+                    $randomMinute = rand(0, 59);
+                    $randomSecond = rand(0, 59);
+    
+                    // Gabungkan tanggal dengan waktu acak
+                    $created_at = Carbon::parse($createdDate)
+                        ->setTime($randomHour, $randomMinute, $randomSecond)
+                        ->format('Y-m-d H:i:s');
+
                     // Cek apakah email sudah ada di tabel User
                     $existingUser = User::where('email', $data['emailpj'])->first();
     
@@ -463,7 +483,16 @@ class ImportDataController extends Controller
             foreach ($importedData as $index => $data) {
                 try {
                     // Validasi dan konversi format tanggal
-                    $created_at = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($data['created_at']))->format('Y-m-d');
+                    $createdDate = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($data['created_at']))->format('Y-m-d');
+
+                    $randomHour = rand(0, 23);
+                    $randomMinute = rand(0, 59);
+                    $randomSecond = rand(0, 59);
+    
+                    // Gabungkan tanggal dengan waktu acak
+                    $created_at = Carbon::parse($createdDate)
+                        ->setTime($randomHour, $randomMinute, $randomSecond)
+                        ->format('Y-m-d H:i:s');
     
                     // Cek apakah email sudah ada di tabel User
                     $existingUser = User::where('email', $data['emailpj'])->first();
